@@ -1,0 +1,79 @@
+version: "2.0"
+
+# - - - Règles que le bot doit absulument appliqué en cas d'intention de la part de l'utilisateur - - - #
+
+rules:
+
+#Dire aurevoir à chaque fois que l'utilisateur lui dis aurevoir
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset_slots
+
+- rule: Greet user when he greets the bot
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: utter_how_to_help
+
+#
+- rule: say that the bot is doing good when asked
+  steps:
+  - intent: ask_how_bot
+  - action: utter_is_good
+
+#Demander à l'utilisateur de restructurer sa demande si le pourcentage de confiance est bas <0.3
+- rule: Ask user to rephrase whenever they send messages with low NLU confidencce
+  steps:
+  - intent: nlu_fallback
+  - action: utter_ask_to_rephrase
+
+- rule: Welcome message everytime chat send intent trigger for welcome
+  steps:
+  - intent: welcome_intent_trigger
+  - action: utter_welcome
+
+#Chercher les réponses une fois que le sujet a été donné
+# - rule: Get questions from db when subject is given
+#   steps:
+#   - intent: give_course_subject
+#   - action: get_course_question
+
+#Explique que je suis un robot à chaque fois que l'utilisateur lui demande
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+#Demander à l'utilsiateur de surveiller son langage quand des grossièretés sont utilisées
+- rule: Do not insult me
+  steps:
+  - intent: insults
+  - action: utter_insultes
+
+- rule: Give army form when asked for it
+  steps:
+  - intent: intent_armee_hesge
+  - action: utter_form_armee_hesge
+
+- rule: redirect to hesge website when asked for student affairs
+  steps:
+  - intent: intent_student_affairs
+  - action: utter_student_affairs
+
+- rule: Give absence form when asked
+  steps:
+  - intent: intent_absence
+  - action: utter_absence
+
+- rule: When out of scope, respond with what the bot can do
+  steps:
+  - intent: out_of_scope
+  - action: utter_remind_functions
+
+#Faire une blaque quand l'utilisateur le demande
+- rule: Make a joke
+  steps:
+  - intent: joke
+  - action: utter_blagues

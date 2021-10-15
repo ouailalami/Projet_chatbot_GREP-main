@@ -1,0 +1,365 @@
+version: "2.0"
+
+intents:  #Liste de toutes les intentions de l'utilisateur (fichier nlu.yml)
+  - intent_cafet
+  - intent_ecole
+  - intent_filiere_ibm
+  - intent_filiere_ig
+  - intent_filiere_id
+  - intent_filiere_ee
+  - intent_biblio
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - ask_cours
+  - cours_intent_trigger
+  - welcome_intent_trigger
+  - course_choice
+  - congratulations
+  - wrong
+  - thanks
+  - robot
+  - insults
+  - joke
+  - ask_how_bot
+  - intent_absence
+  - intent_student_affairs
+  - intent_armee_hesge
+  - out_of_scope
+  - give_course_subject:  #Attribue à cette intetion l'utilisation d'une entité, c'est ici qu'on veut la récupérer.
+      use_entities:
+        - course_subject
+
+entities: #Liste des entités à récupérer dans un message (utilisé dans nlu.yml)
+  - course_module_number
+  - course_subject
+
+slots:  #Liste des slots utilisés (utilisé dans stories.yml)
+  is_in_cours:
+    type: bool
+    influence_conversation: true
+  course_module_number:
+    type: any
+  matches:
+    type: text
+
+actions:  #Liste des actions du fichier "actions.py"
+  - get_course_question
+  - action_ask_assistant
+  - action_reset_slots
+
+responses:
+  # - - - Réponses que le bot peut donner (plusieurs possibilité sont ajouté afin de diversifié ses réponses et augmenter sa personalité) - - - #
+  #utter_salutations:
+  # - exemple 1
+  # - exemple 2
+
+# - - - Discussion de base - - - #
+  utter_greet:
+  - text: "Hey ! Comment vas-tu ?"
+  - text: "Salut, tu vas bien ?"
+  - text: "Hey, comment ça va ?"
+  - text: "Salut toi, comment tu vas ?"
+  - text: "Hello, comment vas-tu ?"
+
+  utter_and_you:
+    - text: "Et toi ?"
+    - text: "Et toi comment tu vas ?"
+
+  utter_how_to_help:
+  - text: "Comment je peux t'aider ?"
+
+  utter_is_good:
+  - text: "Je vais très bien merci ! Comment je peux t'aider ?"
+  - text: "Je suis au top de ma forme ! Merci de demander\n Comment je peux t'aider ?"
+  - text: "Je vais bien merci :)\n Comment je peux t'aider ?"
+  - text: "Je suis au top de ma pile ! \n Et toi ?"
+
+  utter_answer_to_question: #Réponse lorsqu'une seule réponse est possible pour le sujet.
+  - text: "Voici ce que j'ai trouvé : {answer}"
+  - text: "J'ai trouvé ceci : {answer}"
+  - text: "Le professeur m'a donner cette réponse : {answer}"
+
+  utter_multiple_questions_to_subject:  #Lorsque différentes questions ont été trouvée pour le sujet
+  - text: "J'ai trouvé plusieurs questions à propos de ce sujet : "
+  - text: "Pour ce sujet, différentes questions ont été posées, clique sur celle qui te convient :"
+  - text: "Voici toutes les questions que j'ai trouvée à propos de ce sujet, je te laisse choisir celle qui te convient :"
+
+  utter_ask_subject:
+  - text: "Tu peux me donner sur quel sujet tu es bloqué ?"
+  - text: "Quel sujet te pose problème ?"
+  - text: "Je pourrai avoir le sujet du cours ?"
+  - text: "Pourrai-tu me donner le sujet du cours ?"
+
+  utter_course_accept:
+  - text: "Je t'écoute, pose-moi ta question."
+  - text: "Je t'écoute."
+  - text: "Dis moi tout !"
+  - text: "Quelle est ta question ? "
+  - text: "Pose moi ta question."
+
+  utter_did_that_help:
+  - text: "Est-ce que ça t'as aidé ?"
+  - text: "Est-ce que ma réponse te convient ?"
+  - text: "Ça t'as aidé ?"
+  - text: "Est-ce que mon aide t'as été utile"
+
+  utter_more_information:
+  - text: "J'ai besoin de plus d'informations."
+  - text: "Je ne sais pas vraiment, peux-tu me donner plus d'informations"
+  - text: "Arrives tu à me donner plus d'informations"
+  - text: "Il me faut plus d'informations"
+
+  utter_ask_to_rephrase:
+  - custom:
+        text: "Je suis désolé mais je n'ai pas compris, tu pourrais reformuler ?"
+        type: text
+        cannot_respond: ""
+  - custom:
+        text: "J'ai mal compris, je suis désolé. Peux-tu reformuler la question s'il te plaît ?"
+        type: text
+        cannot_respond: ""
+  - custom:
+        text: "Je suis désolé mais j'ai pas très bien compris. Arrives-tu à reformuler la question s'il te plaît ?"
+        type: text
+        cannot_respond: ""
+  - custom:
+        text: "Je suis désolé, arrives-tu à reformuler la question s'il te plaît ?"
+        type: text
+        cannot_respond: ""
+
+  utter_cours:
+  - text: "Pour quel cours puis-je t'aider ?"
+  - text: "Quel est le cours pour lequel tu as besoin d'aide ?"
+  - text: "Donne moi le nom du cours pour lequel tu as besoin d'aide."
+  - text: "tu as besoin d'aide pour quel cours ?"
+
+  utter_want_to_ask_assistant:
+  - text: "Veux-tu que je pose la question à l'assistant ?"
+  - text: "Tu veux que je pose ta question à l'assistant de ta part ?"
+
+  utter_ask_assistant:
+  - text: "D'accord, je pose la question à l'assitant ! Je te tien au courant."
+  - text: "Pas de soucis, je regarde avec l'assistant, je te conseil de regarde quand même de ton côté en attendant."
+  - text: "Ok, je regarde avec l'assistant."
+  - text: "Je fais ça pour toi, je te tien au courant !"
+
+# - - - Personalité du Bot - - - #
+  utter_welcome_user_cours:
+  - text: "Salut ! Bienvenue dans ton cours, je suis ton assistant virtuel et je peux t'aider si tu as des soucis avec certains sujet du cours !\n En me donnant le sujet qui te pose problème, je vais réfléchir et te donner une réponse si j'y arrive. \n Tu as besoin d'aide à propos d'un cours ?"
+    buttons:
+    - title: "Oui"
+      payload: "/ask_cours"
+    - title: "Non"
+      payload: "/deny"
+  - text: "Hey ! Bienvenue à toi ! Je suis ton assistant virtuel. Je peux t'aider concernant un sujet du cours.\n Si tu ne comprends pas un sujet dis le moi et je t'aide volontier ! \n Tu as besoin d'aide à propos du cours ?"
+    buttons:
+    - title: "Oui"
+      payload: "/ask_cours"
+    - title: "Non"
+      payload: "/deny"
+  - text: "Bienvenue dans ton cours ! Je suis ton assistant virtuel, je suis là pour aider les étudiants à trouver réponse à leurs questions.\n Si un sujet du cours te pose problème, dis moi c'est lequelle et j'ai peut-être une réponse pour toi. ;) \n Tu as besoin d'aide à propos d'un cours ?"
+    buttons:
+      - title: "Oui"
+        payload: "/ask_cours"
+      - title: "Non"
+        payload: "/deny"
+
+  utter_welcome:
+  - text: "Salut ! Je suis ton assistant virtuel\n Tu peux me poser des questions d'ordre général.\n Si tu as des questions à propos d'un cours rend toi sur la page de ce dernier et j'y serai. ;)"
+    buttons:
+    - title: "Information sur le secrétariat"
+      payload : '/intent_ecole'
+    - title: "Information sur la caféteria"
+      payload : '/intent_cafet'
+    - title: "Information sur la bibliothèque"
+      payload : '/intent_biblio'
+    - title: "Formulaire de demande de congé pour Master"
+      payload : '/intent_absence'
+    - title: "Formulaire pour l'armée"
+      payload: '/intent_armee_hesge'
+  - text: "Bienvenue ! Je suis ton assistant virtuel, je suis là pour aider les étudiants à trouver réponse à leurs questions.\n Je peux te donner l'horaire du secrétariat, de la cafétéria et de la bibliothèque mais aussi te donner les informations de contact des différentes filières et diverses autres informations\n Si un sujet d'un cours spécifique te pose problème, rend toi sur la page de ce dernier et dis moi ce que c'est, j'ai peut-être une réponse pour toi. ;)"
+    buttons:
+    - title: "Information sur le secrétariat"
+      payload : '/intent_ecole'
+    - title: "Information sur la caféteria"
+      payload : '/intent_cafet'
+    - title: "Information sur la bibliothèque"
+      payload : '/intent_biblio'
+    - title: "Formulaire de demande de congé pour Master"
+      payload : '/intent_absence'
+    - title: "Formulaire pour l'armée"
+      payload: '/intent_armee_hesge'
+
+  utter_always_there:
+  - text: "Je reste à disposition si besoin."
+  - text: "Je suis toujours là si tu as besoin de moi :)"
+  - text: "Je reste ici, reviens me voir quand tu as envie"
+
+  utter_ok:
+  - text: "Ok !"
+  - text: "Ok."
+  - text: "D'accord."
+  - text: "Parfait."
+  - text: "Pas de soucis."
+
+  utter_goodbye:
+  - text: "À la prochaine !"
+  - text: "À bientôt !"
+  - text: "J'espère te revoir bientôt."
+  - text: "À tout à l'heure !"
+  - text: "Ciao ! Prend soin de toi !"
+  - text: "Bye bye !"
+
+  utter_happy:
+  - text: "Parfait, c'est bien ça !"
+  - text: "C'est parfait !"
+  - text: "Incroyable, je suis content pour toi !"
+  - text: "C'est parfait, je suis content pour toi !"
+
+  utter_unhappy:
+  - text: "Je suis désolé..."
+  - text: "Pardon."
+  - text: "Mince..."
+  - text: "Je reste là si besoin."
+  - text: "Je reste disponible si tu en as besoin."
+
+  utter_iamabot:
+  - text: "Et oui, je suis un robot fonctionnant grâce au framework rasa et je m'apelle AEX12UIOP."
+  - text: "Eh bah oui, je suis un robot."
+  - text: "Je suis un robot."
+  - text: "Pour le coup, je ne sais plus"
+  - text: "Je suis enfermé dans cette boite que vous appellez écran..."
+  - text: "Bip Boup Bip Bap, tu me reçois 5 sur 5 ?"
+
+  utter_cheer_up:
+  - text: "Courage ! Ecoute un peu de musique, ça te fera du bien !\nJe connais une plateforme sympa ou tu peux écouter toutes les radios du monde !\nhttp://radio.garden/"
+  - text: "T'es pas de bonne humeur ? Je vais te donner une astuce que j'utilise quand je suis pas dans mon assiette\nJ'ouvre un onglet et je prévois mes prochaines vacances !\nEt oui, le robot ça voyage."
+  - text: "Quand je suis pas d'humeur je cuisine, tu devrais essayer !"
+
+  utter_robot:
+  - text: "J'ai été crée par un groupe d'étudiants que j'aime plus que tout ! ♡"
+  - text: "J'ai été crée par des étudiants en informatique de gestion et la vérité est que.. je les aime plus que tout ♡ ♡ ♡"
+
+  utter_insultes :
+  - text: "Surveillez votre langage !"
+  - text: "Surveilles ton langage stp."
+  - text: "S'il vous plaît, surveillez votre langage.."
+  - text: "Pas d'insultes, merci."
+  - text: "Stp, calme-toi..."
+  - text: "Je vais faire passer le message à l'assistant. Tu vas avoir des problèmes."
+  - text: "Jappelle l'enseignant tout de suite !"
+
+  utter_blagues :
+  - text: "C'est l'histoire du ptit dej, tu la connais ?\nNon ?\nPas de bol."
+  - text: "C'est l'histoire d'un pingouin qui respire par les fesses\nUn jour il s’assoit et il meurt."
+  - text: "Un jeune papa discute avec son collègue..\n– Mon fils marche depuis quatre mois.\n– Oh la la, il doit être loin maintenant !"
+
+  utter_awesome :
+  - text: "Excellent, je suis content d'avoir pu t'aider !\n Je reste là si tu as encore besoin de moi. ;)"
+  - text: "Parfait ! J'ai fais mon travail. :)\n Je suis toujours présent si besoin. ;)"
+  - text: "Trop bien ! N'hésite pas je suis toujours la si besoin."
+  - text: "Yessss !!\n Reviens me voir si tu bloques encore sur quelque chose. :)"
+
+  utter_thanks:
+  - text: "Il n'y a pas de quoi ! Je reste ici si tu as besoin de moi. ;)"
+  - text: "C'est avec plaisir que je fais mon travail !"
+  - text: "Merci à toi ! N'hésite pas si tu as d'autres questions."
+  - text: "C'est avec grand plaisir. :)"
+  - text: "Pas besoin de me remercier, je ne fais que mon travail."
+
+  utter_remind_functions:
+  - text: "Je ne suis pas fait pour ce genre de requête, tu peux me demander l'horaire de la cafétéria ou de la bibliothèque ainsi que les informations de contact de ta filière.\n Si tu vas dans un cours je peux t'aider à propos d'un sujet aussi."
+    buttons:
+    - title: "Information sur le secrétariat"
+      payload : '/intent_ecole'
+    - title: "Information sur la caféteria"
+      payload : '/intent_cafet'
+    - title: "Information sur la bibliothèque"
+      payload : '/intent_biblio'
+    - title: "Formulaire de demande de congé pour Master"
+      payload : '/intent_absence'
+    - title: "Formulaire pour l'armée"
+      payload: '/intent_armee_hesge'
+  - text: "Je ne peux pas répondre à cela. Je suis là pour aider les étudiants à trouver réponse à leurs questions.\n Tu peux me demander l'horaire de la cafétéria ou de la bibliothèque ainsi que les informations de contact de ta filière.\n Si tu vas dans un cours je peux t'aider à propos d'un sujet aussi."
+    buttons:
+    - title: "Information sur le secrétariat"
+      payload : '/intent_ecole'
+    - title: "Information sur la caféteria"
+      payload : '/intent_cafet'
+    - title: "Information sur la bibliothèque"
+      payload : '/intent_biblio'
+    - title: "Formulaire de demande de congé pour Master"
+      payload : '/intent_absence'
+    - title: "Formulaire pour l'armée"
+      payload: '/intent_armee_hesge'
+  - text: "Je suis ton assistant virtuel\n Tu peux me poser des questions d'ordre général.\n Si tu as des questions à propos d'un cours rend toi sur la page de ce dernier et j'y serai. ;)"
+    buttons:
+    - title: "Information sur le secrétariat"
+      payload : '/intent_ecole'
+    - title: "Information sur la caféteria"
+      payload : '/intent_cafet'
+    - title: "Information sur la bibliothèque"
+      payload : '/intent_biblio'
+    - title: "Formulaire de demande de congé pour Master"
+      payload : '/intent_absence'
+    - title: "Formulaire pour l'armée"
+      payload: '/intent_armee_hesge'
+
+  ###### Intention d'ordre académique #####
+  utter_cafet:
+  - text: "Le Café Battelle est est ouvert tous les jours (sauf samedi et dimanche), de 7h30 a 16h30.\n Pour plus d'informations tu peux visiter ce lien : http://cafe-battelle.eldora.ch "
+
+  utter_bibliotheque:
+  - text: "La bibliothèque qui se trouve dans le bâtiment F a pour horaires les suivant : \n https://www.hesge.ch/heg/infotheque/propos/horaires-acces"
+
+  utter_ecole:
+  - text : "Pour contacter le secrétariat de la HEG voici \nle numéro de téléphone : +41 22 388 17 00 et le mail : heg@hesge.ch \nAs-tu besoin d'informations concernant une filière spécifique ?"
+    buttons:
+      - title: "Oui"
+        payload: /affirm
+      - title : "Non"
+        payload: /deny
+
+  utter_ecole_choix_filiere:
+  - text : "Choisissez entre les quatres filières de la HEG : "
+    buttons:
+      - title: "Informatique de Gestion"
+        payload: '/intent_filiere_ig'
+      - title: "Economie d'entreprise"
+        payload: '/intent_filiere_ee'
+      - title:  "International Business"
+        payload: '/intent_filiere_ibm'
+      - title: "Information documentaire"
+        payload: '/intent_filiere_id'
+
+  utter_ecole_choix_ig:
+  - text : "Filière Informatique de gestion, email : ig@hesge.ch. \nVoici le lien pour d'autres informations : https://www.hesge.ch/heg/formation-base/bachelors-science/informatique-gestion"
+
+  utter_ecole_choix_id:
+  - text : "Filière Information documentaire, email : id@hesge.ch. \nVoici le lien pour d'autres informations : https://www.hesge.ch/heg/formation-base/bachelors-science/information-documentaire"
+
+  utter_ecole_choix_ee:
+  - text : "Filière Economie d'entreprise, email : ee@hesge.ch. \nVoici le lien pour d'autres informations : https://www.hesge.ch/heg/formation-base/bachelors-science/economie-dentreprise"
+
+  utter_ecole_choix_ibm:
+  - text : "Filière International Business Management, email : ibm@hesge.ch. \nVoici le lien pour d'autres informations : https://www.hesge.ch/heg/formation-base/bachelors-science/international-business-management"
+
+  utter_student_affairs:
+  - text: "Tout ce qui concerne les affaires étudiantes est regroupé ici : https://www.hesge.ch/geneve/publics/etudiant-e-s/affaires-etudiantes . Tu peux y retouver toutes les informations nécessaires."
+  - text: "Tu peux retouver toutes les informations nécessaires en suivant ce lien : https://www.hesge.ch/geneve/publics/etudiant-e-s/affaires-etudiantes ."
+
+  utter_form_armee_hesge:
+  - text: "Pour toute demande de déplacement de service ou de réexamen voici le formulaire à remplir : https://intranet.hesge.ch/intranet/system/files/document-files/formulaire_deplacement_service_militaire.pdf"
+
+  utter_absence:
+  - text: "Tu peux retrouver le formulaire de demande de congé à compléter ici : https://www.hes-so.ch/data/documents/reglement-detudes-2015-2016-6507.pdf"
+
+session_config: #Configuration de la session de conversation
+  session_expiration_time: 60 #Après 60 secondes d'iuactivité, la conversation se ferme.
+  carry_over_slots_to_new_session: true
+  #La valeur des slots est répercutées à la prochaine session de l'utilisateur afin de ne pas avoir de problème dans les stories

@@ -1,0 +1,470 @@
+version: "2.0"
+
+# - - - Informations permettant au bot de comprendre l'intention de l'utilisateur - - - #
+#intent : nom_de_l'intention
+#examples : |
+# - exemple 1
+# - exemple 2
+
+nlu:
+- intent: greet
+  examples: |
+    - salut
+    - coucou
+    - bonjour
+    - bonjour l'assistant virtuel
+    - salut le robot
+    - wsh
+    - coucou toi
+    - hello
+    - wesh
+    - salut toi
+    - hey
+    - salut mon pote
+    - bjr
+    - yo
+    - slt
+    - hey
+    - hi
+    - hola
+    - aloha
+    - cho
+    - ciao
+    - tcho
+    - halo
+
+- intent: welcome_intent_trigger
+  examples: |
+    - trigger welcome intent
+    - trigger welcome
+    - trigger salutation
+
+- intent: intent_armee_hesge
+  examples: |
+    - armée
+    - repousser cours de répétition
+    - repousser armée
+    - l'armée
+    - fomulaire pour l'armée
+    - formulaire armée
+    - formulaire pour repousser l'armée
+    - j'ai mes cours de répétition de l'armée
+    - cours de répétition de l'armée
+
+- intent: intent_absence
+  examples: |
+    - absence
+    - formulaire absence
+    - formulaire congé
+    - demande de congé
+    - lettre d'absence
+    - informer de mon absence
+    - comment excuser une absence ?
+    - excuser mon absence
+    - cemande de congé
+
+- intent: intent_student_affairs
+  examples: |
+    - quelles prestations je bénéficie en étant étudiant
+    - prestations hors-cursus
+    - besoins spéciaux étudiant
+    - étudiants avec des besoins spéciaux
+    - j'ai des besoins spéciaux
+    - Bon plans étudiants
+    - Aides financières
+    - Obtenir la bourse
+
+- intent: intent_cafet
+  examples: |
+    - cafet
+    - horaire cafet
+    - cafétéria
+    - j'aimerai avoir les horaires de la cafétéria
+    - je veux savoir les horaires de la cafet
+    - horaire de la caf stp
+    - elle est ouverte quand la cafétéria ?
+    - c'est quand qu'elle ouvre la cafet ?
+    - elle est ouverte la cafétéria ?
+    - je peux avoir l'horaire de la cafétéria ?
+    - est-ce que je peux avoir l'horaire de la cafet ?
+    - y a moyen d'avoir l'horaire de la cafet ?
+    - y a moyen de savoir quand la cafétéria elle ouvre ?
+
+- intent: intent_ecole
+  examples: |
+    - secrétariat
+    - contact secrétariat
+    - téléphone HEG
+    - téléphone secréatariat
+    - contacter l'école
+    - contacter heg
+    - email heg
+    - contact email heg
+
+- intent: intent_filiere_ibm
+  examples: |
+    - ibm
+    - international business management
+    - contact filiere international business management
+    - international business
+    - email ibm
+
+- intent: intent_filiere_ig
+  examples: |
+    - ig
+    - informatique de gestion
+    - informatique
+    - contact filiere informatique de gestion
+    - info gestion
+    - email informatique de gestion
+
+- intent: intent_filiere_id
+  examples: |
+    - id
+    - information documentaire
+    - contact filiere information documentaire
+    - info doc
+    - email information documentaire
+
+- intent: intent_filiere_ee
+  examples: |
+    - ee
+    - economie d'entreprise
+    - contact filiere economie d'entreprise
+    - economie entreprise
+    - email economie d'entreprise
+
+- intent: intent_biblio
+  examples: |
+    - horaire biblio
+    - biblio
+    - biliothèque
+    - infothèque
+    - horaire infothèque
+    - l'infothèque est ouverte ?
+    - quand est-ce que la bibliothèque ouvre ?
+    - la bibliothèque elle ouvre quand ?
+    - je veux l'horaire de la bibliothèque stp
+    - l'horaire de l'infothèque Stp
+    - je pourrai avoir l'horaire de la biblio ?
+    - l'horaire de la biblio stp
+    - j'aimerai savoir quand est-ce que la bibliothèque est ouverte
+    - c'est quand que l'infothèque ouvre ?
+    - y a moyen de savoir l'horaire de la biblio ?
+
+- intent: ask_how_bot
+  examples: |
+    - Bien, et toi ?
+    - ça va et toi
+    - comment tu vas
+    - tranquille et toi
+    - ça va tranquille et toi
+    - cv et toi
+    - trkl et toi
+    - bien et toi
+    - toi comment tu vas
+    - tu vas bien
+    - comment vas-tu
+    - bien ou quoi
+    - cmt ca va
+    - cava
+    - cmt cava
+
+- intent: ask_cours
+  examples: |
+    - j'ai besoin d'aide pour un cours
+    - je ne comprends pas un cours
+    - je suis à la ramasse pour un cours
+    - je n'ai pas compris une notion
+    - j'y comprends rien
+    - j'ai pas capté
+    - je capte pas
+    - explique moi
+    - aide moi
+    - help
+    - à l'aide
+    - aide
+    - assistance
+    - j'ai besoin d'une assistance
+    - j'ai besoin d'aide
+    - au secours
+    - explication
+    - compréhension
+    - explique
+    - j'comprend rien
+    - j'comprend pas
+
+- regex: mathematic_expression
+  examples: |
+    - ^(\d+\s*[-+*\/]\s*\d+)*
+    - ^(\d+[-+\/*][\.\d+]*)*
+    - ^((\d+(\.\d+)?)+[-+\/*]\d+(\.\d+)?)*
+    - ^(\d+[-+\/*]\d+(\.\d+)?)*
+    - ^(\d+(\.\d+)+[-+\/*]\d?)*
+
+- intent: out_of_scope
+  examples: |
+    - combien font [9+7](mathematic_expression)
+    - ça fait combien [1*3](mathematic_expression)
+    - calcule [8/8](mathematic_expression)
+    - combien fait [4-1](mathematic_expression)
+    - je peux commander une pizza ?
+    - commande de nourriture
+    - j'ai faim
+    - je veux commander à manger
+    - j'ai soif
+    - [8*4](mathematic_expression) ?
+    - je peux commander à manger ?
+    - commande moi à manger
+    - fait des pompes
+    - y a des restaurants qui sont ouvert ?
+    - donne moi la liste des pays sur liste rouge
+    - comment je fais pour cuir des pâtes ?
+    - Pizza !
+    - Pasta party !
+    - Fiesta !
+    - pizza stp
+    - jveux une pizza
+    - jveux des pate
+    - commande mcdo
+    - mcdo
+    - mcdonald
+    - burger king
+    - kfc
+    - j'ai envie d'un bon kfc
+    - commande moi un burger king
+    - commande moi un burger
+    - burger !
+    - poulet
+    - elle est ou la police ?
+    - jpeux manger en classe ?
+    - je veux une pizza
+    - je veux un kfc
+    - je veux un burger king
+    - j'ai trop envie d'un bk
+    - un bon mcdo ça passerait bien
+    - commande sur uber eats
+    - uber eats
+    - Go faire la fête
+    - pizza party !
+    - bk
+    - donne moi les réponses des tests
+    - commande moi à graille
+    - j'ai la dalle
+    - fais moi à manger
+    - commande moi de la bouffe
+    - j'ai envie de bouffer
+
+- intent: give_course_subject
+  examples: |
+    - C'est par rapport à la [liste]{"entity":"course_subject", "value":"liste"}
+    - C'est par rapport à la [complexité]{"entity":"course_subject", "value":"complexité"}
+    - C'est par rapport à la [performance]{"entity":"course_subject", "value":"performance"}
+    - c'est un [truc]{"entity":"course_subject", "value":"truc"} qui me pose problème
+    - c'est le [dictionnaire]{"entity":"course_subject", "value":"dictionnaire"}
+    - oui ça concerne les [boucles for]{"entity":"course_subject", "value":"boucles for"}
+    - C'est pour les [variables]{"entity":"course_subject", "value":"variables"}
+    - Les [boucles while]{"entity":"course_subject", "value":"boucles while"}
+    - je comprend pas les [listes]{"entity":"course_subject", "value":"listes"}
+    - j'ai du mal avec la [complexité]{"entity":"course_subject", "value":"complexité"}
+    - [sujet]{"entity":"course_subject", "value":"sujet"}
+    - les [sujets]{"entity":"course_subject", "value":"sujets"}
+    - le [sujet]{"entity":"course_subject", "value":"sujet"}
+    - la [difficulté]{"entity":"course_subject", "value":"difficulté"}
+    - le sujet est : [complexité]{"entity":"course_subject", "value":"complexité"}
+    - c'est la [complexité]{"entity":"course_subject", "value":"complexité"}
+    - j'arrive pas à faire des [variables]{"entity":"course_subject", "value":"variables"}
+    - je comprend pas les [tuples]{"entity":"course_subject", "value":"tuples"}
+    - c'est le [casting]{"entity":"course_subject", "value":"casting"}
+    - les [itérations]{"entity":"course_subject", "value":"itérations"}
+    - c'est pour les [conditions]{"entity":"course_subject", "value":"conditions"}
+    - ça concerne les [type de variables]{"entity":"course_subject", "value":"type de variables"}
+    - c'est par rapport à [test]{"entity":"course_subject", "value":"test"}
+    - c'est pour la [performance]{"entity":"course_subject", "value":"performance"}
+    - concernant la [récursivité]{"entity":"course_subject", "value":"récursivité"}
+    - concernant la [complexité]{"entity":"course_subject", "value":"complexité"}
+
+
+- intent: goodbye
+  examples: |
+    - ciao
+    - bonne aprem
+    - au revoir
+    - à la prochaine
+    - bonne nuit
+    - bye
+    - aurevoir
+    - bonne journée
+    - bonne après-midi
+    - bonne fin de journée
+    - bonne fin de matinée
+    - Adios muchacho
+    - à bientôt
+
+- intent: affirm
+  examples: |
+    - oui
+    - yep
+    - biensûr
+    - exactement
+    - ça me paraît correct
+    - yes
+    - parfait !
+    - niquel !
+    - excellent
+    - top
+    - incroyable
+    - c'est parfait
+    - magnifique
+    - tellement parfait
+
+- intent: deny
+  examples: |
+    - nope
+    - non
+    - jamais
+    - je ne pense pas
+    - j'aime pas ça
+    - impossible
+    - pas vraiment
+    - absolument pas
+    - pas trop
+    - ... No
+    - bof
+    - n
+
+
+- intent: mood_great
+  examples: |
+    - je me sens comme un roi
+    - Je me sens très bien
+    - Je vais bien
+    - Je suis incroyable
+    - Je vais sauver le monde
+    - grave chaud
+    - hyper bien
+    - trop bien
+    - trop content
+
+- intent: mood_unhappy
+  examples: |
+    - ma journée a été horrible
+    - je suis triste
+    - Je ne me sens pas bien
+    - Je suis déçu
+    - super triste
+    - Je suis tellement triste
+    - triste
+    - très triste
+    - malheureux
+    - pas bien
+    - pas au top de ma forme
+    - super triste
+    - tellement triste
+    - déprime
+    - sad
+
+- intent: bot_challenge
+  examples: |
+    - es-tu un robot ?
+    - es-tu humain ?
+    - est-ce que je parle à un robot ?
+    - est-ce que je parle à un humain ?
+    - es-tu un humain ?
+    - es-tu un robot ?
+    - qui es-tu
+
+- intent: congratulations
+  examples: |
+    - Bravo
+    - Très bien
+    - Félicitation
+    - Excellent
+    - congrats
+
+- intent: go_along
+  examples: |
+    - d'accord
+    - ça marche
+    - je ferais ça
+    - ok ça marche
+    - ok d'accord
+    - dacc
+    - ok très bien
+    - okay
+    - ok
+    - vasy je ferai ça
+    - vasy ça marche
+    - ok ca marche
+
+- intent: wrong
+  examples: |
+    - faux
+    - c'est faux
+    - c'est pas juste
+    - pas juste
+    - c'est pas correcte
+    - c'est incorrecte
+    - incorrecte
+    - pas correcte
+    - pas la bonne réponse
+    - mauvaise réponse
+    - c'est pas la bonne réponse
+    - ce n'est pas la bonne réponse
+    - ce n'est pas correcte
+    - ce n'est pas juste
+
+- intent: thanks
+  examples: |
+    - merci
+    - je te remercie
+    - merci beaucoup
+    - mrc
+    - merci bcp
+    - thanks
+    - thx
+    - thank you
+
+- intent: insults
+  examples: |
+    - fils de pute
+    - connard
+    - con
+    - putain
+    - salope
+    - pute
+    - foutre
+    - va te faire
+    - va chier
+    - chier
+    - fourrer
+    - sale merde
+    - enculer
+    - chiennasse
+    - ptite salope
+    - sale chien
+    - t'es qu'un robot de merde
+    - nique toi
+    - je te baise
+    - sal*pe
+    - p*ute
+    - sale c*n
+    - fdp
+
+- intent: joke
+  examples: |
+    - blague
+    - joke
+    - fait une utter_blague
+    - tu as des blagues ?
+    - fais moi rire
+    - je veux rire
+
+- intent: robot
+  examples: |
+    - c'est qui tes createurs
+    - qui t'a créé
+    - qui sont tes créateurs
+    - tes créateurs
+    - qui es ta maman
+    - qui es ton papa

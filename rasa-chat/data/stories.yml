@@ -1,0 +1,266 @@
+
+version: "2.0"
+
+# - - - Chemin que le bot peut suivre selon les intentions de l'utilisateur avec les actions à faire de sa part - - - #
+#Intention : Info sur cours
+#Action : Vérifier si dans le cours
+#Action : Demander question
+#Intent : Question
+#Action : Réponse
+#Action : D'autres questions ?
+#Intent : Oui/Non
+#Action : Demander question / Dire au revoir et tjr dispo pour répondre
+
+stories:
+
+#### Conversation basique ####
+- story: story_how_bot_happy
+  steps:
+  - intent: mood_great
+  - action: utter_how_to_help
+
+- story: story_how_bot_sad_1
+  steps:
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: story_how_bot_sad_2
+  steps:
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_unhappy
+
+#Permet une discussion de base (quand l'utilisateur est triste mais que le bot réussi à lui remonter le moral)
+- story: story_sad_1
+  steps:
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+#Permet une discussion de base (quand l'utilisateur est triste mais que le bot essaie de lui remonter le moral)
+- story: story_sad_2
+  steps:
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_unhappy
+
+#Story lorsque l'utilisateur dis qu'il va bien, le bot demande comment l'aider.
+- story: story_just_good
+  steps:
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_how_to_help
+
+#### Conversation dans un cours ####
+- story: cours_story_path
+  steps:
+    - intent: cours_intent_trigger
+    - slot_was_set:
+      - is_in_cours: True
+    - action: utter_welcome_user_cours
+    - intent: ask_cours
+    - action: utter_ask_subject
+    - intent: give_course_subject
+    - action: get_course_question
+
+#### Conversation lorsque l'utilisateur n'a pas besoin d'aide pour un cours.
+- story: cours_story_no_help_needed
+  steps:
+    - intent: cours_intent_trigger
+    - slot_was_set:
+      - is_in_cours: True
+    - action: utter_welcome_user_cours
+    - intent: deny
+    - action: utter_always_there
+
+#Story qui ajoute le remerciement de l'utilisateur à la fin.
+- story: cours_story_path_thanks
+  steps:
+    - intent: cours_intent_trigger
+    - slot_was_set:
+      - is_in_cours: True
+    - action: utter_welcome_user_cours
+    - intent: ask_cours
+    - action: utter_ask_subject
+    - intent: give_course_subject
+    - action: get_course_question
+    - intent: thanks
+    - action: utter_thanks
+
+#Si l'utilisateur a été aidé
+- story: cours_story_path_helped
+  steps:
+    - intent: cours_intent_trigger
+    - slot_was_set:
+      - is_in_cours: True
+    - action: utter_welcome_user_cours
+    - intent: ask_cours
+    - action: utter_ask_subject
+    - intent: give_course_subject
+    - action: get_course_question
+    - action: utter_did_that_help
+    - intent: affirm
+    - action: utter_awesome
+
+#Story qui prend en compte la demande à l'assistant si elle est demandée
+- story: cours_story_path_not_helped_assistant_ok
+  steps:
+    - intent: cours_intent_trigger
+    - slot_was_set:
+      - is_in_cours: True
+    - action: utter_welcome_user_cours
+    - intent: ask_cours
+    - action: utter_ask_subject
+    - intent: give_course_subject
+    - action: get_course_question
+    - action: utter_did_that_help
+    - intent: deny
+    - action: utter_want_to_ask_assistant
+    - intent: affirm
+    - action: utter_ask_assistant
+    - action: action_ask_assistant
+
+#Story sans aide demandée à l'assistant
+- story: cours_story_path_not_helped_assistant_no
+  steps:
+    - intent: cours_intent_trigger
+    - slot_was_set:
+      - is_in_cours: True
+    - action: utter_welcome_user_cours
+    - intent: ask_cours
+    - action: utter_ask_subject
+    - intent: give_course_subject
+    - action: get_course_question
+    - action: utter_did_that_help
+    - intent: deny
+    - action: utter_unhappy
+    - action: utter_want_to_ask_assistant
+    - intent: deny
+    - action: utter_ok
+    - action: utter_always_there
+
+# Story permettant la récupération du sujet et la récupération des réponses ou question
+- story: cours_story_questions
+  steps:
+    - intent: cours_intent_trigger
+    - slot_was_set:
+      - is_in_cours: True
+    - action: utter_welcome_user_cours
+    - intent: ask_cours
+    - action: utter_ask_subject
+    - intent: give_course_subject
+    - action: get_course_question
+
+#Lorsqu'une demande pour un cours est faite alors qwue l'utilisateur est dans l'accueil
+- story: not_in_cours_ask_for_course
+  steps:
+    - intent: ask_cours
+    - slot_was_set:
+      - is_in_cours: False
+    - action: utter_welcome
+
+# general demande horaire cafet
+- story: story_cafet
+  steps:
+    - intent: intent_cafet
+    - action: utter_cafet
+
+# general demande horaire info
+- story: story_biblio
+  steps:
+    - intent: intent_biblio
+    - action: utter_bibliotheque
+
+
+# general demande horaire ecole sans email de filiere
+- story: story_ecole
+  steps:
+    - intent: intent_ecole
+    - action: utter_ecole
+    - intent: deny
+    - action: utter_always_there
+
+# general demande horaire ecole avec email de filiere IG
+- story: story_ecole_ig
+  steps:
+    - intent: intent_ecole
+    - action: utter_ecole
+    - intent: affirm
+    - action: utter_ecole_choix_filiere
+    - intent: intent_filiere_ig
+    - action: utter_ecole_choix_ig
+
+# general demande horaire ecole avec email de filiere ID
+- story: story_ecole_id
+  steps:
+    - intent: intent_ecole
+    - action: utter_ecole
+    - intent: affirm
+    - action: utter_ecole_choix_filiere
+    - intent: intent_filiere_id
+    - action: utter_ecole_choix_id
+
+# general demande horaire ecole avec email de filiere ee
+- story: story_ecole_ee
+  steps:
+    - intent: intent_ecole
+    - action: utter_ecole
+    - intent: affirm
+    - action: utter_ecole_choix_filiere
+    - intent: intent_filiere_ee
+    - action: utter_ecole_choix_ee
+
+# general demande horaire ecole avec email de filiere ibm
+- story: story_ecole_ibm
+  steps:
+    - intent: intent_ecole
+    - action: utter_ecole
+    - intent: affirm
+    - action: utter_ecole_choix_filiere
+    - intent: intent_filiere_ibm
+    - action: utter_ecole_choix_ibm
+
+# general demande email de filiere ig
+- story: story_ecole_ig
+  steps:
+    - intent: intent_filiere_ig
+    - action: utter_ecole_choix_ig
+
+# general demande email de filiere id
+- story: story_ecole_id
+  steps:
+    - intent: intent_filiere_id
+    - action: utter_ecole_choix_id
+
+# general demande email de filiere ee
+- story: story_ecole_ee
+  steps:
+    - intent: intent_filiere_ee
+    - action: utter_ecole_choix_ee
+
+# general demande email de filiere ibm
+- story: story_ecole_ibm
+  steps:
+    - intent: intent_filiere_ibm
+    - action: utter_ecole_choix_ibm
+
+#Expliquer que le bot est bien un robot
+- story: story_i_am_robot
+  steps:
+  - intent: robot
+  - action: utter_robot
+
+#Fiare une blague à l'utilisateur
+- story: story_make_joke
+  steps:
+  - intent: joke
+  - action: utter_blagues
